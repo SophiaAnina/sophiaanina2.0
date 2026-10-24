@@ -1,0 +1,132 @@
+name: sophiaanina
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Inlined into the browser bundle at build time (the browser calls the API directly)
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:80}
+    image: sophiaanina/frontend:1.0
+    container_name: frontend
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks:
+      - sophiaanina_net
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  web:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: sophiaanina/backend:1.0
+    container_name: sophiaanina_flask
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "80:5000" # host port 80 -> container port 5000 (the container runs as non-root)
+    volumes:
+      - flask_sessions:/sessions # named volume: sessions survive restarts
+    networks:
+      - sophiaanina_net
+    healthcheck:
+      # the slim image has no curl, so probe with Python
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+  mariadb:
+    image: mariadb:10.6.20
+    container_name: sophiaanina_mariadb
+    environment:
+      # The backend (x.py) connects as root with this password to this database
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
+      MARIADB_DATABASE: sophiaanina
+    volumes:
+      - mariadb_data:/var/lib/mysql # database files persist here
+      - ./db/init:/docker-entrypoint-initdb.d:ro # schema is loaded on first start only
+    ports:
+      - "127.0.0.1:3306:3306" # only reachable from this machine
+    networks:
+      - sophiaanina_net
+      
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 512M
+
+  # One-shot job: loads db/seed/seed.sql on every `up` (INSERT IGNORE, so it is repeatable)
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2
+    container_name: sophiaanina_phpmyadmin
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mariadb
+    ports:
+      - "127.0.0.1:8080:80" # only reachable from this machine
+    networks:
+      - sophiaanina_net
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+
+networks:
+  sophiaanina_net:
+    name: sophiaanina_net
+    driver: bridge
+
+volumes:
+  mariadb_data:
+    name: backend_mariadb_data # keeps the DB volume created by the old backend-only compose
+  flask_sessions:
+    name: sophiaanina_flask_sessions
