@@ -1,31 +1,43 @@
+import type { CSSProperties } from "react";
+
 export default function Skills() {
-  const focusWords: string[] = [
-    "Application Development",
-    "Frontend Development",
-    "Developer Enviroments",
-    "Fullstack Development",
-    "Content Management System",
-    "UI/UX Design",
-    "SEO Optimization",
-    "Sustainable User Experience",
+  const categories = {
+    frontend: "var(--skill-frontend)",
+    software: "var(--skill-software)",
+    tooling: "var(--skill-tooling)",
+    content: "var(--skill-content)",
+    design: "var(--skill-design)",
+    sustainability: "var(--skill-sustainability)",
+  };
+
+  const focusWords: { text: string; color: string }[] = [
+    { text: "Application Development", color: categories.software },
+    { text: "Frontend Development", color: categories.frontend },
+    { text: "Developer Enviroments", color: categories.tooling },
+    { text: "Fullstack Development", color: categories.software },
+    { text: "Content Management System", color: categories.content },
+    { text: "UI/UX Design", color: categories.design },
+    { text: "SEO Optimization", color: categories.content },
+    { text: "Sustainable User Experience", color: categories.sustainability },
   ];
-  
+
   return (
-    <div>
-      <h2>Techstack</h2>
-      <ul></ul>
-    <div className="skills-carousel" aria-label="Areas of focus">
-      <div className="skills-track">
-        {focusWords.map((word, index) => (
-          <h2 className={`skill-item skill-item-${index}`} key={word}>
-            {word}
-          </h2>
-        ))}
-        <h2 className="skill-item skill-item-0" aria-hidden="true">
-          {focusWords[0]}
-        </h2>
-      </div>
-    </div>
-    </div>
+    <span
+      className="skills-carousel"
+      aria-label="Areas of focus"
+      style={{ "--skills-count": focusWords.length } as CSSProperties}
+    >
+      {focusWords.map(({ text, color }, index) => (
+        <span
+          className="skill-word"
+          key={text}
+          style={
+            { "--skill-index": index, "--skill-color": color } as CSSProperties
+          }
+        >
+          {text}
+        </span>
+      ))}
+    </span>
   );
 }

@@ -7,11 +7,12 @@ interface ProjectPopupProps {
   name: string;
   description: string;
   img?: StaticImageData;
+  video?: string;
   tech: string[];
   onClose: () => void;
 }
 
-export default function ProjectPopup({ name, description, img, tech, onClose }: ProjectPopupProps){
+export default function ProjectPopup({ name, description, img, video, tech, onClose }: ProjectPopupProps){
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -28,6 +29,7 @@ export default function ProjectPopup({ name, description, img, tech, onClose }: 
     <div className="popup-overlay" onClick={onClose}>
       <div
         className="popup"
+        id={name}
         role="dialog"
         aria-modal="true"
         aria-label="Project details"
@@ -41,10 +43,26 @@ export default function ProjectPopup({ name, description, img, tech, onClose }: 
         >
           &times;
         </button>
-        {img && <Image className="popup-image" src={img} alt={`${name} screenshot`} />}
+        {video ? (
+          <video
+            className="popup-image"
+            src={video}
+            poster={img?.src}
+          
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-label={`${name} demo video`}
+          />
+        ) : (
+          img && <Image className="popup-image" src={img} alt={`${name} screenshot`} />
+        )}
         <div className="popup-body">
           <h3>{name}</h3>
           <p>{description}</p>
+          <p className="techstack-title">Teachstack</p>
           {tech.length > 0 && (
             <ul className="popup-tech">
               {tech.map((techName) => {
