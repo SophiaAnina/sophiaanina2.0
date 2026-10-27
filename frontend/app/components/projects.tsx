@@ -7,6 +7,7 @@ import boxboxclub from '../img/boxboxclub-startscreen.png'
 import { skills } from "./techstack";
 import ProjectPopup from "./project-popup";
 import { FaArrowRightLong } from "react-icons/fa6";
+
 interface PortfolioItem {
   id: number;
   name: string;
@@ -22,11 +23,11 @@ export default function Projects(){
   const closePopup = useCallback(() => setSelected(null), []);
 
 
-    
+   
     const images=[
-      {img:washworld, tech:["Python","React/ -Native","TypeScript","MariaDB","Git","Figma"]},
-      {img:cphbookinq, tech:["React/ -Native", "Vite","Typescript","Supabase", "Git"] as string[]},
-      {img:boxboxclub, tech:["React/ -Native","Javascript", "Supabase","Git" ] as string[]}
+      {img:washworld, tech:["Python","React","TypeScript","MariaDB","Git","Figma"]},
+      {img:boxboxclub, tech:["React Native","Javascript", "Supabase","Git" ] as string[]},
+       {img:cphbookinq, tech:["React", "Vite","Typescript","Supabase", "Git"] as string[]}
     ]  
    useEffect(() => {
     async function fetchItems() {
@@ -53,20 +54,23 @@ export default function Projects(){
   if (error) return <p>Error: {error}</p>;
 
     return(
-        <div>
+        <div >
             {items.map(({ id, name, description }, index) => (
                 <div className="skill-item" key={id}>
                     {images[index] && (
                         <Image className="skill-icon" src={images[index].img} alt={`${name} screenshot`} />
                     )}
-                    <h3>{name}</h3>
-                    <p>{description}</p>
-                  
+                    <div className="container_1-1">
+                      <h3>{name}</h3>
+                      <button type="button" className="project-link" onClick={() => setSelected(index)}>
+                        View details <FaArrowRightLong/>
+                      </button>
+                    </div>
+                    <p className="description">{description}</p>
+                   
                     {(images[index]?.tech.length ?? 0) > 0 && (
                       <div className="project-content">
-                          <button type="button" className="project-link" onClick={() => setSelected(index)}>
-                      View details <FaArrowRightLong/>
-                    </button>
+                          <p className="techstack-title">Techstack</p>
                         <ul className="project-tech">
                             {images[index].tech.map((techName) => {
                                 const skill = skills.find((s) => s.name === techName);

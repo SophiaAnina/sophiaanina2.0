@@ -14,13 +14,15 @@ import docker from '../img/docker.png'
 import supabase from '../img/supabase-logo-icon.png'
 import vite from '../img/Vite_Logo_2026.svg.webp'
 import Image from "next/image"
+
 export const skills = [
-    { name: "React/ -Native", logo: react },
+    { name: "React", logo: react },
     { name: "Next.js", logo: next },
     { name: "TypeScript", logo: typescript },
     { name: "JavaScript", logo: javascript },
     { name: "MongoDB", logo: mongodb },
     { name: "NestJS", logo: nestjs },
+    { name: "React Native", logo: react },
     { name: "PostgreSQL", logo: postgres },
     { name: "Python", logo: python },
     { name: "Tailwind CSS", logo: tailwind },

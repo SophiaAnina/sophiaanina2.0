@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Techstack from "./components/techstack";
 import logo from './portfoliobillede.jpg'; 
+import background from '../public/background.png'
 import Projects from "./components/projects";
 import Nav from "./components/nav";
 import { MdOutlineFileDownload } from "react-icons/md";
@@ -8,6 +9,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { SiGithub } from "react-icons/si";
 import { IoMdMail } from "react-icons/io";
+
 export default function Home() {
 
   return (
@@ -16,7 +18,7 @@ export default function Home() {
       <main>
        
         <div className="intro">
-  <Image src={logo} alt="Portrait of Sophia" />
+        <Image src={logo} alt="Portrait of Sophia" />
           <div className="text-container">
            
             <p className="subtitle">HELLO, I'M</p>
@@ -46,6 +48,7 @@ export default function Home() {
           <h3>Things i built</h3>
           <Projects/>
         </div>
+       
       </main>
      
     </div>
