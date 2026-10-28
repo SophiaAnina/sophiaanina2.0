@@ -227,6 +227,9 @@ main{
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 50px;
+    @media (width <= 800px){
+      grid-template-columns: 1fr;
+    }
   }
   .subtitle{
   font-weight: bold;

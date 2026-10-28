@@ -24,7 +24,7 @@ export default function Home() {
             <h1>Sophia Anina Kingston</h1>
             <h2>Fullstack developer Hyperfocused</h2>
             <h2>On <Skills/></h2>
-            <p>I am a Web-development student based in Copenhagen with hands-on experience in modern development environments, fullstack development, and relational, document, and graph databases. With a former background in multimediadesign, I am focused on creating visually appealing and user-friendly digital experiences. Especially focused on User Experiennce, adapting and developing to the demographic.</p>
+            <p>I am a Web-development student based in Copenhagen with hands-on experience in modern development environments, fullstack development, and relational, document, and graph databases. With a former background in multimediadesign, I am focused on creating visually appealing and user-friendly digital experiences. Especially focused on User Experiennce, adapting and developing to a demographic.</p>
             <div className="button-container">
             <a className="download-button" href="/sophia-anina-cv.pdf" download="sophia-anina-cv.pdf"><MdOutlineFileDownload/> Download CV</a>
             <a className="projects-button" href="#Projects">View my work <FaArrowRightLong/> </a>
