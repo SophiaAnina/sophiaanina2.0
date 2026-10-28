@@ -33,7 +33,7 @@ export default function Home() {
           </div>
           
         </div>
-        <div className="container_1-1">
+        <div className="container_2-1">
         <div className="techstack">
           <p className="subtitle">TECHSTACK</p>
           <h3>Tools I work with</h3>

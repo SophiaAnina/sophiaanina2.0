@@ -223,6 +223,11 @@ main{
       
     }
   }
+  .container_2-1{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 50px;
+  }
   .subtitle{
   font-weight: bold;
   color: var(--muted);
@@ -569,6 +574,7 @@ main{
   }
 }
 footer{
+  padding: 20px;
   background: var(--nav-bg);
   color:var(--footer-fg);
   padding-left:30px ;
