@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect,useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import washworld from '../img/washworld-startscreen.png'
 import cphbookinq from '../img/cphbookinq.png'
@@ -14,8 +14,25 @@ interface PortfolioItem {
   id: number;
   name: string;
   description:string;
-  img:string;
 }
+
+const items: PortfolioItem[] = [
+  {
+    id: 1,
+    name: "Washworld",
+    description: "For this project I created a web-app for the customers of the washhall company Washworld, which was split into a Next.js frontend and a Flask backend, with MariaDB for account and membership data. It supports customer registration, profile and membership management, wash locations, and starting a wash.",
+  },
+  {
+    id: 2,
+    name: "BOX BOX CLUB",
+    description: "For this project I created BOXBOXCLUB, a Danish-language Formula 1 learning and fan-community mobile app, built with Expo and React Native. The features included authentication, avatar creation, a chat function with word restrictions, quizzes, and live API updates for each F1 race.",
+  },
+  {
+    id: 3,
+    name: "CPHbookinq",
+    description: "For this project I created a web-app meant for booking meeting rooms and classrooms, with separate administrative access for teachers and staff. The technologies used for the application were React, Tanstack and Vite while Supabase were used for the database.",
+  },
+];
 
 const images=[
   {img:washworld, video:"/video/washworld.mp4" as string | undefined, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript",,] as string[]},
@@ -26,35 +43,8 @@ const images=[
 export const projectTech = Array.from(new Set(images.flatMap((p) => p.tech)));
 
 export default function Projects({ selectedTech = [] }: { selectedTech?: string[] }){
-  const [items, setItems] = useState<PortfolioItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null); 
   const [selected, setSelected] = useState<number | null>(null);
   const closePopup = useCallback(() => setSelected(null), []);
-
-   useEffect(() => {
-    async function fetchItems() {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:80"}/items`);
-        
-        if (!response.ok) {
-          throw new Error("Failed to fetch items");
-        }
-
-        const data: PortfolioItem[] = await response.json();
-        setItems(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchItems();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
 
   const visible = filterProjectsByTech(
     items.map((item, index) => ({ ...item, index, tech: images[index]?.tech ?? [] })),
