@@ -1,4 +1,4 @@
-
+import Techstack from "./techstack";
 type TimelineItem = {
   period: string;
   title: string;
@@ -7,12 +7,20 @@ type TimelineItem = {
 };
 
 const timeline: TimelineItem[] = [
+   {
+    period: "2026 Jan – Present",
+    title: "Webdevelopment",
+    place: "EK",
+    type: "Education",
+   
+  },
   {
-    period: "2026 – Present",
+    period: "2026 Jan – Present",
     title: "Web Development",
     place: "SWAT: Student Web Assisting Team",
     type: "Work",
   },
+ 
   {
     period: "Jan – Mar 2025",
     title: "Internship",
@@ -24,30 +32,54 @@ const timeline: TimelineItem[] = [
     title: "Multimediedesign AP",
     place: "EK",
     type: "Education",
+  },  
+  {
+   period: "Sep 2022- Dec 2022",
+    title: "Teknologi forståelse",
+    place: "KP",
+    type: "Education",
+  },
+  {
+    period: "Sep 2021- Dec 2022",
+    title: "Teacher college Math(Indskoling)",
+    place: "KP",
+    type: "Education",
+  },
+
+  {
+    period: "Sep 2021- Dec 2022",
+    title: "KLM: Kristendomskundskab Livsoplysning og Medborgerskab",
+    place: "KP",
+    type: "Education",
+  },
+  {
+    period: "Sep 2021- Dec 2022",
+    title: "Teachers assistant ",
+    place: "KP",
+    type: "Work",
   },
 ];
 
+
 export default function WorkExperience() {
   return (
-    <div>
+    <div id="Timeline">
       <p className="subtitle">TIMELINE</p>
       <h3 className="title">School & Work </h3>
-
-      <ol className="relative mt-8 ml-2 border-l border-(--card-border)">
-        {timeline.map(({ period, title, place, type }) => (
-          <li key={`${period}-${place}`} className="mb-8 ml-6 last:mb-0">
-            <span
-              className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-(--background) bg-(--foreground)"
-              aria-hidden="true"
-            />
-            <time className="text-sm text-(--muted)">{period}</time>
-            <h4 className="text-lg font-semibold">{title}</h4>
-            <p className="text-(--card-text)">
-              {place} · {type}
-            </p>
+     
+      <ul>
+        {timeline.map(({period, title, place, type}, index) =>(
+          <li key={`${period}-${place}-${title}`}>
+            {period !== timeline[index - 1]?.period && (
+              <p className="subtitle timeline-period">{period}</p>
+            )}
+            <span>
+              <h4><b>{title}</b></h4>
+              <p>{place} · {type} </p>
+            </span>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   );
 }

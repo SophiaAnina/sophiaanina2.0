@@ -7,7 +7,6 @@ import boxboxclub from '../img/boxboxclub-startscreen.png'
 import { skills } from "./techstack";
 import ProjectPopup from "./project-popup";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { filterProjectsByTech } from "./tech-project-filter";
 
 
 interface PortfolioItem {
@@ -15,6 +14,7 @@ interface PortfolioItem {
   name: string;
   description:string;
 }
+const skillsMap = Object.fromEntries(skills.map((s) => [s.name, s]));
 
 const items: PortfolioItem[] = [
   {
@@ -35,26 +35,22 @@ const items: PortfolioItem[] = [
 ];
 
 const images=[
-  {img:washworld, video:"/video/washworld.mp4" as string | undefined, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript",,] as string[]},
+  {img:washworld, video:"/video/washworld.mp4" as string | undefined, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript"] as string[]},
   {img:boxboxclub, video:undefined as string | undefined, tech:["Git","JavaScript","React Native", "Supabase", ] as string[]},
   {img:cphbookinq, video:undefined as string | undefined, tech:["Git","React", "Vite","TypeScript","Supabase", ] as string[]}
 ]
 
-export const projectTech = Array.from(new Set(images.flatMap((p) => p.tech)));
 
-export default function Projects({ selectedTech = [] }: { selectedTech?: string[] }){
-  const [selected, setSelected] = useState<number | null>(null);
+
+export default function Projects(){
+
   const closePopup = useCallback(() => setSelected(null), []);
 
-  const visible = filterProjectsByTech(
-    items.map((item, index) => ({ ...item, index, tech: images[index]?.tech ?? [] })),
-    selectedTech,
-  );
+  const [selected, setSelected] = useState<number | null>(null);
 
     return(
         <div >
-            {visible.length === 0 && <p>No projects match the selected techstack.</p>}
-            {visible.map(({ id, name, description, index }) => (
+            {items.map(({ id, name, description }, index) => (
                 <div className="skill-item" key={id}>
                     {images[index] && (
                         <Image className="skill-icon" src={images[index].img} alt={`${name} screenshot`} />
@@ -72,10 +68,11 @@ export default function Projects({ selectedTech = [] }: { selectedTech?: string[
                           <p className="techstack-title">Techstack</p>
                         <ul className="project-tech">
                             {images[index].tech.map((techName) => {
-                                const skill = skills.find((s) => s.name === techName);
+                                const skill = skillsMap[techName];
                                 return (
                                     <li key={techName}>
-                                        {skill && <Image src={skill.logo} alt={`${techName} logo`} />}
+                                        {skill?.logo && <Image src={skill.logo} alt={`${techName} logo`} />}
+                                        {skill?.icon_logo}
                                         <span>{techName}</span>
                                     </li>
                                 );

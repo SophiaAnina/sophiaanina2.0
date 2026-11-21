@@ -51,6 +51,18 @@
   --skill-sustainability: #4ade80;
   color-scheme: dark;
 }
+.frontend{
+  color: var(--skill-frontend);
+}
+.software{
+  color: var(--skill-software);
+}
+.tooling{
+  color: var(--skill-tooling);
+}
+.ux{
+  color: var(--skill-design);
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -163,7 +175,7 @@ main{
     padding: 50px 75px;
    }
   @media (width >= 800px){
-    padding: 100px 75px;
+    padding: 100px 150  px;
    }
  
   
@@ -205,6 +217,7 @@ main{
     p{
       max-width: 600px;
      line-height: 1.8;
+     font-size: 18px;
     }
   }
     }
@@ -224,9 +237,9 @@ main{
     }
   }
   .container_2-1{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 50px;
+    display: flex;
+ 
+
     @media (width <= 800px){
       grid-template-columns: 1fr;
     }
@@ -282,7 +295,7 @@ main{
   .icon-skill-container{
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 40px;
     width: 100%;
     padding: 0;
     list-style: none;
@@ -473,7 +486,41 @@ main{
   }
 }
 #Timeline{
-  width: 100%;
+  width: 50%;
+  overflow: hidden;
+  ul{
+  padding-left: 40px;
+  border-left: 1px solid lightgray;
+  list-style: none;
+  margin-top: 20px;
+  margin-left: 130px;
+  }
+  li{
+    position: relative;
+    margin-bottom: 20px;
+    &::before{
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: -45px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: lightgray;
+    }
+  }
+  .timeline-period{
+    position: absolute;
+    top: 0;
+    right: calc(100% + 56px);
+    width: 110px;
+    margin: 0;
+    text-align: right;
+  }
+  input[type="range"] {
+  writing-mode: vertical-lr;
+  margin-top: 40px;
+}
 }
 
 #Projects{
@@ -503,6 +550,7 @@ main{
       color: var(--card-text);
       line-height: 1.6;
       height: 80px;
+      font-size: 18px;
       @media (width <=800px){
         height: auto;
       }

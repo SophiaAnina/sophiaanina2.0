@@ -62,14 +62,15 @@ export default function ProjectPopup({ name, description, img, video, tech, onCl
         <div className="popup-body">
           <h3>{name}</h3>
           <p>{description}</p>
-          <p className="techstack-title">Teachstack</p>
+          <p className="techstack-title">Techstack</p>
           {tech.length > 0 && (
             <ul className="popup-tech">
               {tech.map((techName) => {
                 const skill = skills.find((s) => s.name === techName);
                 return (
                   <li key={techName}>
-                    {skill && <Image src={skill.logo} alt={`${techName} logo`} />}
+                    {skill?.logo && <Image src={skill.logo} alt={`${techName} logo`} />}
+                    {skill?.icon_logo}
                     <span>{techName}</span>
                   </li>
                 );

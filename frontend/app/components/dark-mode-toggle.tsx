@@ -11,7 +11,7 @@ function subscribe(callback: () => void) {
     attributes: true,
     attributeFilter: ["data-theme"],
   });
-  return () => observer.disconnect();
+  return () => observer.disconnect ();
 }
 
 const getSnapshot = (): Theme =>
