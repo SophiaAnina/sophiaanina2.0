@@ -49,38 +49,40 @@ export default function Projects(){
   const [selected, setSelected] = useState<number | null>(null);
 
     return(
-        <div >
+        <div className="project-grid">
             {items.map(({ id, name, description }, index) => (
-                <div className="skill-item" key={id}>
-                    {images[index] && (
-                        <Image className="skill-icon" src={images[index].img} alt={`${name} screenshot`} />
-                    )}
-                    <div className="container_1-1">
-                      <h3>{name}</h3>
-                      <button type="button" className="project-link" onClick={() => setSelected(index)}>
-                        View details <FaArrowRightLong/>
-                      </button>
+                <article className="project-card" key={id}>
+                    <div className="project-media">
+                        {images[index] && (
+                            <Image className="project-image" src={images[index].img} alt={`${name} screenshot`} />
+                        )}
+                        <span className="project-number">{String(index + 1).padStart(2, "0")}</span>
                     </div>
-                    <p className="description">{description}</p>
-                   
-                    {(images[index]?.tech.length ?? 0) > 0 && (
-                      <div className="project-content">
+                    <div className="project-body">
+                      <h3>{name}</h3>
+                      <p className="project-description">{description}</p>
+                      {(images[index]?.tech.length ?? 0) > 0 && (
+                        <div className="project-content">
                           <p className="techstack-title">Techstack</p>
-                        <ul className="project-tech">
+                          <ul className="project-tech">
                             {images[index].tech.map((techName) => {
                                 const skill = skillsMap[techName];
                                 return (
-                                    <li key={techName}>
-                                        {skill?.logo && <Image src={skill.logo} alt={`${techName} logo`} />}
+                                    <li className="skill-item" key={techName}>
+                                        {skill?.logo && <Image src={skill.logo} className="skill-icon" alt={`${techName} logo`} />}
                                         {skill?.icon_logo}
                                         <span>{techName}</span>
                                     </li>
                                 );
                             })}
-                        </ul>
+                          </ul>
                         </div>
-                    )}
-                </div>
+                      )}
+                      <button type="button" className="project-link" onClick={() => setSelected(index)}>
+                        View details <FaArrowRightLong/>
+                      </button>
+                    </div>
+                </article>
             ))}
             {selected !== null && items[selected] && (
               <ProjectPopup

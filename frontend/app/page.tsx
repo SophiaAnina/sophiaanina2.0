@@ -1,9 +1,8 @@
 import Image from "next/image";
-import Techstack from "./components/techstack";
+import TechstackTimeline from "./components/techstack-timeline";
 import logo from './portfoliobillede.jpg'; 
 import Skills from "./components/skills";
 import Projects from "./components/projects";
-import WorkExperience from "./components/work-experience";
 import Nav from "./components/nav";
 import Footer from "./components/footer";
 import { MdOutlineFileDownload } from "react-icons/md";
@@ -33,13 +32,7 @@ export default function Home() {
           </div>
           
         </div>
-        <div className="container_2-1">
-        
-          <Techstack/>
-         
-          <WorkExperience/>
-        
-        </div>
+        <TechstackTimeline/>
         <div id="Projects">
           <p className="subtitle">Projects</p>
           <h3>Things i built</h3>

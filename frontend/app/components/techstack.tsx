@@ -1,3 +1,4 @@
+"use client"
 import figma from "../img/Figma.svg.webp"
 import git from "../img/Git_Icon.svg.webp"
 import mongodb from "../img/Mongodb-icon.svg.webp"
@@ -6,7 +7,8 @@ import postgres from '../img/Postgresql_elephant.svg.webp'
 import python from '../img/Python-logo-notext.svg.webp'
 import react from '../img/React-icon.svg.webp'
 import next from '../img/Tabler-icons_brand-nextjs.svg.webp'
-import neo4j from '../img/neo4j.jpg'
+import { DiHtml5 } from "react-icons/di"
+import { DiCss3 } from "react-icons/di"
 import { SiAstro } from "react-icons/si"
 import { SiScratch } from "react-icons/si"
 import { SiNeo4J } from "react-icons/si"
@@ -29,7 +31,7 @@ export const skills = [
     { name: "JavaScript", logo: javascript },
     { name: "MongoDB", logo: mongodb },
     { name: "NestJS", logo: nestjs },
-    {name: "Astro", icon_logo: <SiAstro/> },
+    {name: "Astro", icon_logo: <SiAstro size={36}/> },
     { name: "React Native", logo: react },
     { name: "PostgreSQL", logo: postgres },
     { name: "Python", logo: python },
@@ -43,19 +45,23 @@ export const skills = [
     { name: "Supabase", logo:supabase},
     { name: "Vite", logo:vite},
     {name: "Wordpress", logo:wordpress},
-    {name: "Scratch", icon_logo:<SiScratch size={36}/>}
+    {name: "Scratch", icon_logo:<SiScratch size={36}/>},
+    {name: "HTML/CSS", icon_logo:[<DiHtml5 size={36}/>,<DiCss3 size={36}/>]}
 
 
 ]
 
-export default function Techstack() {
+export default function Techstack({ activeSkills }: { activeSkills?: string[] }) {
     return (
         <div className="techstack">
         <p className="subtitle">TECHSTACK</p>
           <h3>Tools I work with</h3>
         <ul className="icon-skill-container">
             {skills.map(({ name, logo, icon_logo }) => (
-                <li className="skill-item" key={name}>
+                <li
+                    className={`skill-item${activeSkills && !activeSkills.includes(name) ? " skill-item-hidden" : ""}`}
+                    key={name}
+                >
                     {logo && <Image className="skill-icon" src={logo} alt={`${name} logo`}   />}
                     {icon_logo && <span className="skill-icon">{icon_logo}</span>}
                     <span>{name}</span>
