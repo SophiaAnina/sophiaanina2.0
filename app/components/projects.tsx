@@ -1,15 +1,15 @@
 "use client"
 import { useCallback, useState } from "react";
 import Image from "next/image";
-import washworld from '../img/washworld-startscreen.png'
+import washworld from '../video/Washworld.mp4'
 import cphbookinq from '../img/cphbookinq.png'
 import boxboxclub from '../img/boxboxclub-startscreen.png'
 import chatapp from '../img/chatapp.jpg'
 import { skills } from "./techstack";
-import ProjectPopup from "./project-popup";
+import ProjectPopup, { ProjectMedia } from "./project-popup";
 import { FaArrowRightLong } from "react-icons/fa6";
 import cphnordic from '../img/cph-nordic.png'
-import comingSoon from '../img/comingSoon.jpg'
+import ComingSoon from "./comingSoon";
 
 interface PortfolioItem {
   id: number;
@@ -54,15 +54,18 @@ const items: PortfolioItem[] = [
  
 ];
 
-const images=[
-  {img:comingSoon,video:undefined as string | undefined, tech:["Git","NestJS","React Native", "Postgress" ] as string[]},
-  {img:chatapp,video:undefined as string | undefined, tech:["Git","NestJS","React Native", "Postgress" ] as string[]},
-  {img:washworld, video:"/video/washworld.mp4" as string | undefined, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript"] as string[]},
-  {img:boxboxclub, video:undefined as string | undefined, tech:["Git","JavaScript","React Native", "Supabase", ] as string[]},
-  {img:cphnordic, video:undefined as string | undefined, tech:["Wordpress","HTML/CSS", "PHP","Git", ] as string[]},
-  {img:cphbookinq, video:undefined as string | undefined, tech:["Git","React", "Vite","TypeScript","Supabase", ] as string[]},
-  
-  
+interface ProjectAssets {
+  media: ProjectMedia;
+  tech: string[];
+}
+
+const images: ProjectAssets[] = [
+  {media:{type:"component", node:<ComingSoon/>}, tech:["Git","NestJS","React Native", "Postgress" ]},
+  {media:{type:"image", src:chatapp}, tech:["Git","NestJS","React Native", "Postgress" ]},
+  {media:{type:"video", src:"/video/washworld.mp4"}, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript"]},
+  {media:{type:"image", src:boxboxclub}, tech:["Git","JavaScript","React Native", "Supabase", ]},
+  {media:{type:"image", src:cphnordic}, tech:["Wordpress","HTML/CSS", "PHP","Git", ]},
+  {media:{type:"image", src:cphbookinq}, tech:["Git","React", "Vite","TypeScript","Supabase", ]},
 ]
 
 
@@ -78,10 +81,16 @@ export default function Projects(){
             {items.map(({ id, name, description }, index) => (
                 <article className="project-card" key={id}>
                     <div className="project-media">
-                        {images[index] && (
-                            <Image className="project-image" src={images[index].img} alt={`${name} screenshot`} />
+                        {images[index]?.media.type === "video" && (
+                            <video className="project-video" controls>
+                                <source src={images[index].media.src} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
                         )}
-                     
+                        {images[index]?.media.type === "image" && (
+                            <Image className="project-image" src={images[index].media.src} alt={`${name} screenshot`} />
+                        )}
+                        {images[index]?.media.type === "component" && images[index].media.node}
                     </div>
                     <div className="project-body">
                       <h3>{name}</h3>
@@ -109,13 +118,12 @@ export default function Projects(){
                     </div>
                 </article>
             ))}
-            {selected !== null && items[selected] && (
+            {selected !== null && items[selected] && images[selected] && (
               <ProjectPopup
                 name={items[selected].name}
                 description={items[selected].description}
-                img={images[selected]?.img}
-                video={images[selected]?.video}
-                tech={images[selected]?.tech ?? []}
+                media={images[selected].media}
+                tech={images[selected].tech}
                 onClose={closePopup}
               />
             )}

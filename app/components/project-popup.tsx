@@ -1,18 +1,22 @@
 "use client"
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import { skills } from "./techstack";
+
+export type ProjectMedia =
+  | { type: "image"; src: StaticImageData }
+  | { type: "video"; src: string }
+  | { type: "component"; node: ReactNode };
 
 interface ProjectPopupProps {
   name: string;
   description: string;
-  img?: StaticImageData;
-  video?: string;
+  media: ProjectMedia;
   tech: string[];
   onClose: () => void;
 }
 
-export default function ProjectPopup({ name, description, img, video, tech, onClose }: ProjectPopupProps){
+export default function ProjectPopup({ name, description, media, tech, onClose }: ProjectPopupProps){
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -43,12 +47,10 @@ export default function ProjectPopup({ name, description, img, video, tech, onCl
         >
           &times;
         </button>
-        {video ? (
+        {media.type === "video" && (
           <video
             className="popup-image"
-            src={video}
-            poster={img?.src}
-          
+            src={media.src}
             autoPlay
             muted
             loop
@@ -56,9 +58,11 @@ export default function ProjectPopup({ name, description, img, video, tech, onCl
             preload="metadata"
             aria-label={`${name} demo video`}
           />
-        ) : (
-          img && <Image className="popup-image" src={img} alt={`${name} screenshot`} />
         )}
+        {media.type === "image" && (
+          <Image className="popup-image" src={media.src} alt={`${name} screenshot`} />
+        )}
+        {media.type === "component" && media.node}
         <div className="popup-body">
           <h3>{name}</h3>
           <p>{description}</p>

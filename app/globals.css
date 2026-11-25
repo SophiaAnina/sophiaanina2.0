@@ -63,13 +63,17 @@
 .ux{
   color: var(--skill-design);
 }
-
+.ComingSoon{
+font-family: var(--fon);
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
- --font-dm-sans: var(--font-dm-sans)
+ --font-dm-sans: var(--font-dm-sans);
+ --font-coming-soon: var(--font-coming-soon)
+
 }
 .container{
   max-width: 100vw;
@@ -590,7 +594,8 @@ main{
       border-right: 1px solid var(--card-border);
     }
   }
-  .project-image{
+  .project-image,
+  .project-video{
     position: absolute;
     inset: 0;
     display: block;
