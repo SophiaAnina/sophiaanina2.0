@@ -1,7 +1,7 @@
 "use client"
 import { useCallback, useState } from "react";
 import Image from "next/image";
-import washworld from '../video/Washworld.mp4'
+import washworld from '../img/washworld-startscreen.png'
 import cphbookinq from '../img/cphbookinq.png'
 import boxboxclub from '../img/boxboxclub-startscreen.png'
 import chatapp from '../img/chatapp.jpg'
@@ -19,12 +19,12 @@ interface PortfolioItem {
 const skillsMap = Object.fromEntries(skills.map((s) => [s.name, s]));
 
 const items: PortfolioItem[] = [
-  {
-    id:1,
-    name:"Beerly",
-    description:"For my Exam "
-  },
    
+  {
+    id: 1,
+    name: "Beerly",
+    description: "I am currently working on my exam project where  I create a beer review app implementing authentication, and message threads. I used knowledge about normalization within Postgres to achive this. Additionaly I used NestJS with Typeorm to create a API with crud and authentication" ,
+  },
   {
     id: 2,
     name: "ChatApp",
@@ -62,7 +62,7 @@ interface ProjectAssets {
 const images: ProjectAssets[] = [
   {media:{type:"component", node:<ComingSoon/>}, tech:["Git","NestJS","React Native", "Postgress" ]},
   {media:{type:"image", src:chatapp}, tech:["Git","NestJS","React Native", "Postgress" ]},
-  {media:{type:"video", src:"/video/washworld.mp4"}, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript"]},
+  {media:{type:"image", src:washworld}, tech:["Docker","Figma","Git","MariaDB","Python","React","TypeScript"]},
   {media:{type:"image", src:boxboxclub}, tech:["Git","JavaScript","React Native", "Supabase", ]},
   {media:{type:"image", src:cphnordic}, tech:["Wordpress","HTML/CSS", "PHP","Git", ]},
   {media:{type:"image", src:cphbookinq}, tech:["Git","React", "Vite","TypeScript","Supabase", ]},
