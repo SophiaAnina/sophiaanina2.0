@@ -1,4 +1,5 @@
 "use client"
+import { useLayoutEffect, useRef, useState } from "react"
 import figma from "../img/Figma.svg.webp"
 import git from "../img/Git_Icon.svg.webp"
 import mongodb from "../img/Mongodb-icon.svg.webp"
@@ -51,16 +52,63 @@ export const skills = [
 
 ]
 
+type Line = { x1: number; y1: number; x2: number; y2: number }
+
 export default function Techstack({ activeSkills }: { activeSkills?: string[] }) {
+    const listRef = useRef<HTMLUListElement>(null)
+    const itemRefs = useRef<Record<string, HTMLLIElement | null>>({})
+    const [lines, setLines] = useState<Line[]>([])
+
+    useLayoutEffect(() => {
+        const update = () => {
+            const list = listRef.current
+            if (!list || !activeSkills) {
+                setLines([])
+                return
+            }
+            const listRect = list.getBoundingClientRect()
+            const centers = skills
+                .filter(({ name }) => activeSkills.includes(name))
+                .map(({ name }) => itemRefs.current[name])
+                .filter((el): el is HTMLLIElement => !!el)
+                .map((el) => {
+                    const r = el.getBoundingClientRect()
+                    return {
+                        x: r.left - listRect.left + r.width / 2,
+                        y: r.top - listRect.top + r.height / 2,
+                    }
+                })
+            setLines(
+                centers.slice(1).map((c, i) => ({
+                    x1: centers[i].x,
+                    y1: centers[i].y,
+                    x2: c.x,
+                    y2: c.y,
+                }))
+            )
+        }
+        update()
+        window.addEventListener("resize", update)
+        return () => window.removeEventListener("resize", update)
+    }, [activeSkills])
+
     return (
         <div className="techstack">
         <p className="subtitle">TECHSTACK</p>
           <h3>Tools I work with</h3>
-        <ul className="icon-skill-container">
+        <ul className="icon-skill-container" ref={listRef}>
+            <svg className="skill-lines" aria-hidden="true">
+                {lines.map((line, i) => (
+                    <line key={i} {...line} />
+                ))}
+            </svg>
             {skills.map(({ name, logo, icon_logo }) => (
                 <li
                     className={`skill-item${activeSkills && !activeSkills.includes(name) ? " skill-item-hidden" : ""}`}
                     key={name}
+                    ref={(el) => {
+                        itemRefs.current[name] = el
+                    }}
                 >
                     {logo && <Image className="skill-icon" src={logo} alt={`${name} logo`}   />}
                     {icon_logo && <span className="skill-icon">{icon_logo}</span>}

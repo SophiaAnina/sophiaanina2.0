@@ -308,8 +308,25 @@ main{
     width: 100%;
     padding: 0;
     list-style: none;
+    position: relative;
+  }
+  .skill-lines{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    line{
+      stroke: var(--muted);
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
   }
   .skill-item{
+    position: relative;
+    z-index: 1;
+    background: var(--background);
     transition: opacity 180ms ease, transform 180ms ease;
   }
   .skill-item-hidden{
@@ -605,7 +622,7 @@ main{
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: top;
     transition: transform 400ms ease;
   }
